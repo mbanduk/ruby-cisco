@@ -9,6 +9,7 @@ module Cisco
     def initialize(options)
       @host    = options[:host]
       @password = options[:password]
+      @username = options[:username]
       @prompt  = options[:prompt]
       @targs   = options[:directargs] || ["Host" => @host]
 		  @pwprompt = options[:pwprompt] || "Password:"
@@ -43,6 +44,8 @@ module Cisco
 
     def login
       raise CiscoError.new("No login password provided.") unless @password
+      @results << @telnet.waitfor(Regexp.new("Username:"))
+      @telnet.puts(@username)
       @results << @telnet.waitfor(Regexp.new("Password:"))
       @telnet.puts(@password)
       @results << @telnet.waitfor(@prompt)

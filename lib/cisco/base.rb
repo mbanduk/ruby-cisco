@@ -12,6 +12,7 @@ module Cisco
       options[:prompt] ||= /[#>]\s?\z/n
       options[:password] ||= ""
       options[:autoinit] ||= true
+      options[:username] ||= "admin"
       @transport = Cisco.const_get(Cisco.constants.find {|const| const =~ Regexp.new(@transport.to_s, Regexp::IGNORECASE)}).new(options)
       extra_init("terminal length 0")
     end
